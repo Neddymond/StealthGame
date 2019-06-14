@@ -4,13 +4,11 @@
 #include "Components/SphereComponent.h"
 #include "EngineMinimal.h"
 #include "Components/StaticMeshComponent.h"
+#include "FPSCharacter.h"
 
 // Sets default values
 AFPSObjectiveActor::AFPSObjectiveActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
 	/** Create a component of type UStaticMeshComponent */
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
 
@@ -47,18 +45,27 @@ void AFPSObjectiveActor::PlayEffects()
 	UGameplayStatics::SpawnEmitterAtLocation(this, PickupFX, GetActorLocation());
 }
 
-// Called every frame
-void AFPSObjectiveActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
 /** Notify an Actor when another Actor overlaps it */
 void AFPSObjectiveActor::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 
 	PlayEffects();
+
+	/** Cast OtherACtor to MyCharacter */
+	AFPSCharacter* MyCharacter = Cast<AFPSCharacter>(OtherActor);
+
+	/**
+	 * If MyCharacter is not null
+	 *Set it's boolean member 'bIsCarryingObjective' to true
+	 */
+	if (MyCharacter)
+	{
+		MyCharacter->bIsCarryingObjective = true;
+
+		Destroy();
+	}
+
+
 }
 
