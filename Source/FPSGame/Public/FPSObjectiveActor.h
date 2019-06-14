@@ -6,6 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "FPSObjectiveActor.generated.h"
 
+class USphereComponent;
+
+
 UCLASS()
 class FPSGAME_API AFPSObjectiveActor : public AActor
 {
@@ -15,7 +18,16 @@ public:
 	// Sets default values for this actor's properties
 	AFPSObjectiveActor();
 
-protected:
+public:
+
+	/** Used to create an instance of a UStatic mesh */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UStaticMeshComponent* MeshComp;
+
+	/** Sphere generally used for simple collision */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	USphereComponent* SphereComp;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
