@@ -18,7 +18,14 @@ public:
 	// Sets default values for this actor's properties
 	AFPSObjectiveActor();
 
-public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	/** Notify an Actor when another Actor overlaps it  */
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
+
+protected:
 
 	/** Used to create an instance of a UStatic mesh */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -28,13 +35,15 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USphereComponent* SphereComp;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
+	UParticleSystem* PickupFX;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	void PlayEffects();
 
-	
-	
+
+private:
+
 };
